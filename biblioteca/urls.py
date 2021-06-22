@@ -20,4 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('applications.autor.urls')),
     path('', include('applications.lector.urls')),
+    path('', include('applications.libro.urls')),
+    
 ]
