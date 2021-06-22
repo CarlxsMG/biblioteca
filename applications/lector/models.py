@@ -1,5 +1,8 @@
 from django.db import models
 
+# Local managers
+from .managers import LectorManager
+
 # Local apps
 from applications.libro.models import Libro
 
@@ -9,6 +12,8 @@ class Lector(models.Model):
     apellidos = models.CharField(max_length=50)
     nacionalidad = models.CharField(max_length=30)
     edad = models.PositiveIntegerField(default=0)
+
+    objects = LectorManager()
 
     def __str__(self):
         return self.nombre
