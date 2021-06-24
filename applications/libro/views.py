@@ -1,6 +1,7 @@
+from django.db import models
 from django.shortcuts import render
 
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 # Local models
 from .models import Libro
@@ -30,3 +31,6 @@ class ListLibrosCategoria(ListView):
 
         return Libro.objects.listar_libros_categoria(parametro)
         
+class LibroDetailView(DetailView):
+    model = Libro
+    template_name = 'libro/detalle.html'
