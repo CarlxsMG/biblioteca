@@ -20,4 +20,13 @@ class ListLibros(ListView):
         else:
             return Libro.objects.listar_libros(clave)
 
+class ListLibrosCategoria(ListView):
+    template_name = 'libro/lista_categoria.html'
+    context_object_name = 'lista_libros_categoria'
+
+    def get_queryset(self):
+
+        parametro = 4
+
+        return Libro.objects.listar_libros_categoria(parametro)
         

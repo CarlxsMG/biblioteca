@@ -11,5 +11,5 @@ class ListAutores(ListView):
     template_name = 'autor/lista.html'
 
     def get_queryset(self):
-        clave = self.request.GET.get('kword',)
+        clave = self.request.GET.get('kword','')
         return Autor.objects.buscar_autores_edad_mayorQue(clave)
