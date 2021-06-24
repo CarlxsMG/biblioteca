@@ -12,4 +12,4 @@ class ListAutores(ListView):
 
     def get_queryset(self):
         clave = self.request.GET.get('kword',)
-        return Autor.objects.buscar_autores(clave)
+        return Autor.objects.buscar_autores_edad_mayorQue(clave)
