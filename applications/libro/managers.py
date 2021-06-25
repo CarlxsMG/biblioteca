@@ -2,6 +2,9 @@ from django.db import models
 
 from django.db.models import Q, Count
 
+# Django trigers
+from django.contrib.postgres.search import TrigramSimilarity
+
 # datetime para validar fechas recibidas por el html
 import datetime
 
@@ -13,6 +16,15 @@ class LibroManager(models.Manager):
             titulo__icontains=kword,
             fecha__range=('2020-06-01', '2022-01-01')
         )
+        return result
+
+    def listar_libros_trg(self, kword):
+        if kword:
+            result = self.filter(
+                titulo__trigram_similar=kword,
+            )
+        else:
+            result = self.all()[:10]
         return result
 
     def listar_libros_date(self, kword, fecha1, fecha2):

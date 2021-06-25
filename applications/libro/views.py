@@ -21,6 +21,15 @@ class ListLibros(ListView):
         else:
             return Libro.objects.listar_libros(clave)
 
+class ListLibrosTrg(ListView):
+    template_name = 'libro/lista.html'
+    context_object_name = 'lista_libros'
+
+    def get_queryset(self):
+        clave = self.request.GET.get('kword','')
+
+        return Libro.objects.listar_libros_trg(clave)
+
 class ListLibrosCategoria(ListView):
     template_name = 'libro/lista_categoria.html'
     context_object_name = 'lista_libros_categoria'
