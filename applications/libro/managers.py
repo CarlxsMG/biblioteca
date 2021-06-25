@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.db.models import Q, Count
+
 # datetime para validar fechas recibidas por el html
 import datetime
 
@@ -40,6 +42,11 @@ class LibroManager(models.Manager):
         libro.autores.remove(autor)
         return libro
 
+    def libros_num_prestamos(self):
+        return self.aggregate(
+            num_prestamos=Count('libro_prestamo')
+        )
+
 
 class CategoriaLibroManager(models.Manager):
     ''' managers para el modelo categoriaLibro '''
@@ -48,3 +55,12 @@ class CategoriaLibroManager(models.Manager):
         return self.filter(
             categoria_libro__autores__id=autor
         ).distinct()
+
+    def listar_categorias_libro(self):
+        result = self.annotate(
+            num_libros=Count('categoria_libro')
+        )
+
+        # for r in result:
+        #     print(r, r.num_libros)
+        return result
