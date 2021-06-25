@@ -1,6 +1,6 @@
 from django.db import models
-from django.db.models import Avg, Sum
-from django.db.models.aggregates import Count
+from django.db.models import Avg, Sum, Count
+from django.db.models.functions import Lower
 
 class LectorManager(models.Manager):
     ''' managers para el modelo lector '''
@@ -23,9 +23,11 @@ class PrestamoManager(models.Manager):
 
     def num_libros_prestados(self):
         result = self.values(
-            'libro'
+            'libro',
+            'lector',
         ).annotate(
-            num_prestados=Count('libro')
+            num_prestados=Count('libro'),
+            titulo=Lower('libro__titulo')
         )
 
         for r in result:
