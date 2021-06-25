@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # Django trigs
     'django.contrib.postgres',
     # Local apps
+    'applications.home',
     'applications.autor',
     'applications.libro',
     'applications.lector',

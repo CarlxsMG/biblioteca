@@ -31,4 +31,9 @@ class Libro(models.Model):
 
     def __str__(self):
         return self.titulo
+
+    class Meta:
+        verbose_name='Libro'
+        verbose_name_plural='Libros'
+        ordering = ['titulo', 'fecha']
     
