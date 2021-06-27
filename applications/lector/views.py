@@ -10,7 +10,7 @@ from django.views.generic.edit import FormView
 # Local models
 from .models import Lector
 from .models import Prestamo
-from .forms import PrestamoForm
+from .forms import PrestamoForm, MultiplePrestamoForm
 
 # Create your views here.
 class ListLectores(ListView):
@@ -65,3 +65,27 @@ class AddPrestamo(FormView):
             return super(AddPrestamo, self).form_valid(form)
         else:
             return HttpResponseRedirect('/')
+
+
+class AddMultiplePrestamo(FormView):
+    template_name = 'lector/add_multi_prestamo.html'
+    form_class = MultiplePrestamoForm
+    success_url = '.' #para recargar la misma vista
+
+    def form_valid(self, form):
+        prestamos_list = []
+
+        for l in form.cleaned_data['libros']:
+            prestamo = Prestamo(
+                lector = form.cleaned_data['lector'],
+                libro = l,
+                fecha_prestamo = date.today(),
+                devuelto = False
+            )
+            prestamos_list.append(prestamo)
+        
+        Prestamo.objects.bulk_create(
+            prestamos_list,
+            ) #guarda los objetos de la lista
+
+        return super(AddMultiplePrestamo, self).form_valid(form)
