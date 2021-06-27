@@ -1,7 +1,11 @@
 from django.db import models
+from django.db.models.signals import post_delete
 
 # Local managers
 from .managers import LectorManager, PrestamoManager
+
+# Local signals
+from .signals import update_libro_stock
 
 # Local apps
 from applications.libro.models import Libro
@@ -38,4 +42,5 @@ class Prestamo(models.Model):
 
     def __str__(self):
         return self.libro.titulo
-    
+
+post_delete.connect(update_libro_stock, sender=Prestamo)
