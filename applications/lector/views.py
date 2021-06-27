@@ -2,6 +2,7 @@
 from datetime import date
 
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
@@ -43,3 +44,24 @@ class RegistrarPrestamo(FormView):
         prestamo.save()
 
         return super(RegistrarPrestamo, self).form_valid(form)
+
+class AddPrestamo(FormView):
+    template_name = 'lector/add_prestamo.html'
+    form_class = PrestamoForm
+    success_url = '.' #para recargar la misma vista
+
+    def form_valid(self, form):
+
+        obj, created = Prestamo.objects.get_or_create(
+            lector=form.cleaned_data['lector'],
+            libro=form.cleaned_data['libro'],
+            devuelto = False,
+            defaults={ # esto en caso de que no exista, para crearlos
+                'fecha_prestamo':date.today(),
+            }
+        )
+
+        if created:
+            return super(AddPrestamo, self).form_valid(form)
+        else:
+            return HttpResponseRedirect('/')
