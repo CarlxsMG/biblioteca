@@ -5,18 +5,16 @@ from .managers import LectorManager, PrestamoManager
 
 # Local apps
 from applications.libro.models import Libro
+from applications.autor.models import Persona
 
 # Create your models here.
-class Lector(models.Model):
-    nombre = models.CharField(max_length=50)
-    apellidos = models.CharField(max_length=50)
-    nacionalidad = models.CharField(max_length=30)
-    edad = models.PositiveIntegerField(default=0)
+class Lector(Persona):
 
     objects = LectorManager()
 
-    def __str__(self):
-        return self.nombre
+    class Meta:
+        verbose_name = 'lector'
+        verbose_name_plural = 'lectores'
     
 class Prestamo(models.Model):
     lector = models.ForeignKey(Lector, on_delete=models.CASCADE)
